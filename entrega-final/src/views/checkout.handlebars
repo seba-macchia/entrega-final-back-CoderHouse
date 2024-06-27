@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket de Compra</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .ticket-info {
+      margin-bottom: 30px;
+    }
+
+    .ticket-info p {
+      margin-bottom: 5px;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    .unpurchased-products {
+      margin-top: 20px;
+    }
+
+    .product-info {
+      margin-bottom: 10px;
+    }
+
+    .product-info p {
+      margin-bottom: 5px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-group a {
+      margin-right: 10px;
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .btn-group a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ticket de Compra</h1>
+    {{#if ticket}}
+      <div class="ticket-info">
+        <p><strong>Código de ticket:</strong> {{ticket.code}}</p>
+        <p><strong>Fecha de compra:</strong> {{ticket.purchase_datetime}}</p>
+        <p><strong>Monto total:</strong> ${{ticket.amount}}</p>
+        <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+      </div>
+
+      {{#if purchasedProducts}}
+        <div class="purchased-products">
+          <p><strong>Productos comprados:</strong></p>
+          <ul>
+            {{#each purchasedProducts}}
+              <div class="product-info">
+                <p><strong>Título:</strong> {{this.title}}</p>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" width="100">
+                <p><strong>Precio:</strong> ${{this.price}}</p>
+                <p><strong>Categoría:</strong> {{this.category}}</p>
+                <p><strong>Cantidad:</strong> {{this.quantity}}</p>
+              </div>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+      {{#if unpurchasedProducts}}
+        <div class="unpurchased-products">
+          <p><strong>Algunos productos no se pudieron comprar debido a la falta de stock:</strong></p>
+          <ul>
+            {{#each unpurchasedProducts}}
+              <div class="product-info">
+                <p><strong>Título:</strong> {{this.title}}</p>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" width="100">
+                <p><strong>Precio:</strong> ${{this.price}}</p>
+                <p><strong>Categoría:</strong> {{this.category}}</p>
+                <p><strong>Cantidad:</strong> {{this.quantity}}</p>
+              </div>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+    {{else}}
+      <div class="error-message mb-3">
+        <p>{{error}}</p>
+      </div>
+      {{#if unpurchasedProducts}}
+        <div class="unpurchased-products">
+          <p><strong>Productos que no se pudieron comprar:</strong></p>
+          <ul>
+            {{#each unpurchasedProducts}}
+              <div class="product-info">
+                <p><strong>Título:</strong> {{this.title}}</p>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" width="100">
+                <p><strong>Precio:</strong> ${{this.price}}</p>
+                <p><strong>Categoría:</strong> {{this.category}}</p>
+                <p><strong>Cantidad:</strong> {{this.quantity}}</p>
+              </div>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+    {{/if}}
+
+    <div class="btn-group">
+      <a href="/api/products" class="btn btn-primary">Ir a Productos</a>
+      <a href="/api/carts/{{cartId}}" class="btn btn-primary" id="cart-link">Ir a Carrito</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (opcional si necesitas funcionalidad de Bootstrap) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

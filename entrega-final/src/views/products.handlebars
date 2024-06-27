@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Tienda de Indumentaria</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- jQuery (required for some Bootstrap components and Ajax) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+        font-size: 2rem; /* Tamaño del texto */
+        color: darkblue; /* Color del texto */
+        text-align: center; /* Alineación centrada */
+        margin-bottom: 20px; /* Espacio inferior */
+        text-transform: uppercase; /* Convertir texto a mayúsculas */
+        letter-spacing: 2px; /* Espaciado entre letras */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra del texto */
+    }
+    h2{
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn-group a {
+      margin-right: 10px;
+    }
+
+    .card {
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      border-radius: 5px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      text-align: center;
+      height: 435px;
+      align-content: center;
+      background-color:rgb(245, 209, 209);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: darkgreen ;
+      text-align: center;
+      margin: 0;
+    }
+
+    .card-text {
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .btn-cart {
+      color: white !important;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1>Indumentaria - Tienda Online</h1>
+      <div class="d-flex justify-center">
+        <a href="/api/sessions/current" class="btn btn-success ml-3">Perfil</a>
+        <form action="/api/sessions/logout" method="post">
+          <button type="submit" class="btn btn-danger ml-3">Cerrar sesión</button>
+        </form>
+      </div>
+    </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-nav">
+                <a href="/chat" class="btn-cart nav-link btn btn-success mr-2" id="chat-link">Ir al Chat</a>
+
+                {{#if isAdmin}}
+                    <a href="/api/products/manager" class="btn-cart nav-link btn btn-primary mr-2">Gestionar Productos</a>
+                {{/if}}
+
+                {{#if isPremium}}
+                    <a href="/api/products/manager" class="btn-cart nav-link btn btn-primary mr-2">Gestionar Productos</a>
+                {{/if}}
+
+                {{#unless isAdmin}}
+                    <a href="/api/carts/{{cartId}}" class="btn-cart nav-link btn btn-primary" id="cart-link">Ir a Carrito</a>
+                {{/unless}}
+
+                {{#if isAdmin}}
+                    <a href="/api/users" class="btn-cart nav-link btn btn-primary mr-2">Administrar Usuarios</a>
+                {{/if}}
+            </div>
+        </nav>
+
+    <h2 >Bienvenido Usuario: {{user.email}} Rol: {{user.role}}</h2>
+
+    <div class="row" id="products-container">
+      {{#each products}}
+      <div class="col-md-4">
+        <div class="card  mb-3 d-flex flex-column">
+          <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text"><strong>Descripción:</strong> {{this.description}}</p>
+            <p class="card-text"><strong>Precio por unidad:</strong> {{this.price}}</p>
+            <img src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
+            <p class="card-text"><strong>Categoría:</strong> {{this.category}}</p>
+            <button class="add-to-cart-btn btn btn-success" data-product-id="{{this._id}}">Agregar al Carrito</button>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination d-flex justify-content-center mt-3">
+      {{#if prevPage}}
+      <a href="/api/products?{{queryString}}&page={{prevPage}}" class="btn btn-primary">Anterior</a>
+      {{else}}
+      <button class="btn btn-primary" disabled>Anterior</button>
+      {{/if}}
+
+      <span class="mx-3">Página {{page}}</span>
+
+      {{#if nextPage}}
+      <a href="/api/products?{{queryString}}&page={{nextPage}}" class="btn btn-primary">Siguiente</a>
+      {{else}}
+      <button class="btn btn-primary" disabled>Siguiente</button>
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Sebastian Macchia &copy; {{year}}</p>
+  </div>
+
+  <!-- Bootstrap JS (opcional si necesitas funcionalidad de Bootstrap) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+  $(document).ready(function () {
+      const year = new Date().getFullYear();
+      $('.footer p').html(`Sebastian Macchia &copy; ${year}`);
+
+      $(document).on('click', '.add-to-cart-btn', function (event) {
+        event.preventDefault();
+        const productId = $(this).data('product-id');
+        const cartId = '{{cartId}}'; // Asumiendo que esta interpolación se maneja correctamente
+        const quantity = 1;
+
+        $('#cart-link').attr('href', '/api/carts/' + cartId);
+
+        // Suponiendo que isAdmin se maneja correctamente como una variable booleana
+        if ({{isAdmin}}) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no permitida',
+            text: 'Usted es administrador. Los administradores no pueden agregar productos al carrito.',
+          });
+          return;
+        }
+
+        $.ajax({
+          url: 'http://localhost:8080/api/carts/' + cartId + '/products/' + productId,
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify({ quantity: quantity }),
+          success: function (response) {
+            Swal.fire({
+              icon:'success',
+              title: 'Producto agregado al carrito exitosamente',
+              showDenyButton: true,
+              showCancelButton: false,
+              confirmButtonText: 'Seguir comprando',
+              denyButtonText: 'Ir al carrito',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Acción para seguir comprando: simplemente cerrar la alerta
+                Swal.close();
+              } else if (result.isDenied) {
+                // Redirigir al carrito
+                window.location.href = '/api/carts/' + cartId;
+              }
+            });
+          },
+          error: function (error) {
+            console.error('Error al agregar el producto ' + productId + ' al carrito:', error);
+            if (error.status === 403) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Acción no permitida',
+                text: 'No tiene permisos para agregar este producto al carrito.',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al agregar el producto al carrito',
+              });
+            }
+          }
+        });
+
+      });
+
+      $('#chat-link').click(function (event) {
+        if ({{isAdmin}}) {
+          event.preventDefault();
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no permitida',
+            text: 'Usted es administrador. Los administradores no pueden acceder al chat.',
+          });
+        }
+      });
+
+      $('#cart-link').click(function (event) {
+        if ({{isAdmin}}) {
+          event.preventDefault();
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no permitida',
+            text: 'Usted es administrador. Los administradores no pueden acceder al carrito.',
+          });
+        }
+      });
+
+    });
+
+  </script>
+</body>
+</html>

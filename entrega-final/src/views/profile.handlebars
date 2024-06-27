@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> <!-- SweetAlert2 CDN -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        input[type="submit"], button {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-footer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .readonly-field {
+            background-color: #f0f0f0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="/api/products" class="btn btn-primary mb-3">Ir a Productos</a>
+    <h1>Perfil</h1>
+
+    <script id="user-data" type="application/json">
+        {{{ jsonSafeStringify data }}}
+    </script>
+
+    <div id="profile-form">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" value="{{ data.email }}" readonly class="readonly-field">
+
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" value="{{ data.name }}">
+
+        <label for="lastname">Apellido:</label>
+        <input type="text" id="lastname" name="lastname" value="{{ data.lastname }}">
+
+        <label for="age">Edad:</label>
+        <input type="text" id="age" name="age" value="{{ data.age }}">
+
+        <label for="cartId">Cart ID:</label>
+        <input type="text" id="cartId" name="cartId" value="{{ data.cartId }}" readonly class="readonly-field">
+
+        <label for="role">Rol:</label>
+        <input type="text" name="role" id="role" value="{{ data.role }}" readonly class="readonly-field">
+        
+        <label for="currentDocuments">Documentos:</label>
+        <ul id="current-documents">
+            {{#if data.documents.length}}
+            {{#each data.documents}}
+                <li>{{ this.name }}</li>
+            {{/each}}
+            {{else}}
+            <li>No hay documentos cargados</li>
+            {{/if}}
+        </ul>
+
+        {{#unless isAdmin}}
+            <button type="button" id="toggle-role-btn">Cambiar a Rol {{toggleRoleText data.role}}</button>
+        {{/unless}}
+
+        <div class="modal-footer mt-5">
+            <button type="button" id="updateUserBtn">Actualizar usuario</button>
+        </div>
+    </div>
+
+    <div id="documentModal" class="modal">
+        <form method="post" action="/api/users/{{ data._id }}/documents" class="modal-content" id="uploadForm" enctype="multipart/form-data">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Debe cargar los siguientes documentos:</h2>
+            <ul>
+                <li>Identificación</li>
+                <li>Comprobante de estado de cuenta</li>
+                <li>Comprobante de domicilio</li>
+            </ul>
+            <input type="file" id="documents" name="documents" multiple>
+            <button type="button" id="uploadDocumentsBtn">Cargar Documentos</button>
+        </form>
+    </div>
+
+    <script>
+        const userDataScript = document.getElementById('user-data');
+        const userData = JSON.parse(userDataScript.textContent);
+
+        document.getElementById('toggle-role-btn').addEventListener('click', async function () {
+            const role = document.getElementById('role').value;
+            const userId = userData._id;
+            const documents = userData.documents.map(doc => doc.name);
+
+            const hasIdentification = documents.includes('identificacion');
+            const hasStatement = documents.includes('comprobante_de_estado_de_cuenta');
+            const hasProofOfAddress = documents.includes('comprobante_de_domicilio');
+
+            if (!hasIdentification || !hasStatement || !hasProofOfAddress) {
+                document.getElementById('documentModal').style.display = 'block';
+            } else {
+                try {
+                    const response = await fetch(`/api/users/premium/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ role })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Rol de usuario actualizado correctamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            document.getElementById('documentModal').style.display = 'none';
+                        }, 2000);
+                        document.getElementById('role').value = result.user.role;
+                        window.location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al actualizar el rol de usuario',
+                            text: result.error || 'Hubo un problema al procesar la solicitud'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al enviar la solicitud:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al enviar la solicitud',
+                        text: 'Hubo un problema al intentar actualizar el rol de usuario'
+                    });
+                }
+            }
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('documentModal').style.display = 'none';
+        });
+
+        document.getElementById('uploadDocumentsBtn').addEventListener('click', async function () {
+            const files = document.getElementById('documents').files;
+            const userId = userData._id;
+            const formData = new FormData(); // Usar FormData para enviar archivos
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                formData.append('documents', file); // Agregar archivos al FormData
+            }
+
+            try {
+                const response = await fetch(`/api/users/${userId}/documents`, {
+                    method: 'POST',
+                    body: formData  // Enviar FormData en lugar de JSON.stringify
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Documentos cargados correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setTimeout(() => {
+                        document.getElementById('documentModal').style.display = 'none';
+                    }, 1500);
+                    window.location.reload();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al cargar documentos',
+                        text: result.error || 'Hubo un problema al procesar la solicitud'
+                    });
+                }
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al enviar la solicitud',
+                    text: 'Hubo un problema al intentar cargar los documentos'
+                });
+            }
+        });
+
+        document.getElementById('updateUserBtn').addEventListener('click', async function () {
+            const userId = userData._id;
+            const name = document.getElementById('name').value;
+            const lastname = document.getElementById('lastname').value;
+            const age = document.getElementById('age').value;
+
+            try {
+                const response = await fetch(`/api/users/${userId}/update`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, lastname, age })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Usuario actualizado correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al actualizar usuario',
+                        text: result.error || 'Hubo un problema al procesar la solicitud'
+                    });
+                }
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al enviar la solicitud',
+                    text: 'Hubo un problema al intentar actualizar el usuario'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
