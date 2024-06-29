@@ -27,14 +27,13 @@ require('dotenv').config();
 // Middleware para el análisis del cuerpo de la solicitud JSON y URL codificado
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
 // Configuración de la base de datos
 Database.connect()
   .then(() => {
     loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(errorDictionary.CONECTION_DATABASE); 
   })
   .catch((error) => {
-    loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).error(`${errorDictionary.DATABASE_ERROR} ${error}`); 
+    loggerConfig.getLogger(`process.env.NODE_ENV, process.env.LOG_LEVEL).error(${errorDictionary.DATABASE_ERROR} ${error}`); 
   });
 
 // Configuración de la sesión
@@ -48,8 +47,8 @@ app.use(session({
 }));
 
 // Inicializar Passport
-// Asumiendo que passport se configura en ./src/config/passport.js
-require('./src/config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session()); // Asegúrate de que la sesión de Passport está inicializada
 
 // Middleware para el análisis de cookies
 app.use(cookieParser());
@@ -85,7 +84,7 @@ app.set("views", __dirname + "/src/views");
 
 // Rutas
 app.use('/logs', loggerRoutes);
-app.use(`${process.env.BASE_URL}/api/sessions`, authRoutes);
+app.use(`${process.env.BASE_URL}/api/sessions`);
 app.use(`${process.env.BASE_URL}/msg`, messagesRoute);
 app.use(`${process.env.BASE_URL}/`, viewsRoutes);
 app.use(`${process.env.BASE_URL}/api/users`, userRoutes);
@@ -120,7 +119,7 @@ io.on('connection', (socket) => {
 
 // Iniciar el servidor
 server.listen(PORT, () => {
-  loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(`${errorDictionary.LISTENING_PORT} ${PORT}`); 
+  loggerConfig.getLogger(`process.env.NODE_ENV, process.env.LOG_LEVEL).info(${errorDictionary.LISTENING_PORT} ${PORT}`); 
 });
 
 module.exports = server;
