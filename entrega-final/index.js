@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require('passport');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
@@ -27,6 +26,7 @@ require('dotenv').config();
 // Middleware para el análisis del cuerpo de la solicitud JSON y URL codificado
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 // Configuración de la base de datos
 Database.connect()
   .then(() => {
@@ -47,8 +47,8 @@ app.use(session({
 }));
 
 // Inicializar Passport
-app.use(passport.initialize());
-app.use(passport.session()); // Asegúrate de que la sesión de Passport está inicializada
+// Asumiendo que passport se configura en ./src/config/passport.js
+require('./src/config/passport')(passport);
 
 // Middleware para el análisis de cookies
 app.use(cookieParser());
@@ -84,18 +84,18 @@ app.set("views", __dirname + "/src/views");
 
 // Rutas
 app.use('/logs', loggerRoutes);
-app.use('/api/sessions', authRoutes);
-app.use("/msg", messagesRoute);
-app.use('/', viewsRoutes);
-app.use('/api/users', userRoutes);
+app.use(`${process.env.BASE_URL}/api/sessions`, authRoutes);
+app.use(`${process.env.BASE_URL}/msg`, messagesRoute);
+app.use(`${process.env.BASE_URL}/`, viewsRoutes);
+app.use(`${process.env.BASE_URL}/api/users`, userRoutes);
 app.use(express.static(__dirname + "/public"));
-app.use("/chat", chatRoutes);
+app.use(`${process.env.BASE_URL}/chat`, chatRoutes);
 
 // Configuración de Swagger
-app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerConfig));
+app.use(`${process.env.BASE_URL}/apidocs`, swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerConfig));
 
 // Inicialización del servidor HTTP
-const PORT = config.port;
+const PORT = config.port || 8080;
 const server = http.createServer(app);
 
 // Configuración de Socket.io
