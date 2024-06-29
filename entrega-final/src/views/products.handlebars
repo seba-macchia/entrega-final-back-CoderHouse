@@ -197,7 +197,7 @@
         }
 
         $.ajax({
-          url: 'http://localhost:8080/api/carts/' + cartId + '/products/' + productId,
+          url: '/api/carts/' + cartId + '/products/' + productId,
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({ quantity: quantity }),

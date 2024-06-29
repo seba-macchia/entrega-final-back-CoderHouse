@@ -116,7 +116,7 @@
 
         // Enviar la solicitud AJAX para agregar el producto
         $.ajax({
-          url: 'http://localhost:8080/api/products/createProd',
+          url: '/api/products/createProd',
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(productData),
@@ -160,7 +160,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-                url: `http://localhost:8080/api/products/deleteProd/${productId}`,
+                url: `/api/products/deleteProd/${productId}`,
                 type: 'DELETE',
               })
               .done(function (response) {
@@ -194,7 +194,7 @@
       // Función para obtener los productos
       function getProducts() {
         $.ajax({
-          url: 'http://localhost:8080/api/products/allProducts',
+          url: '/api/products/allProducts',
           type: 'GET',
           contentType: 'application/json',
         })
@@ -252,7 +252,7 @@
         };
 
         $.ajax({
-          url: `http://localhost:8080/api/products/updateProd/${productId}`,
+          url: `/api/products/updateProd/${productId}`,
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(productData),
