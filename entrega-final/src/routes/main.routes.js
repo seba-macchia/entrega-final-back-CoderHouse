@@ -11,20 +11,19 @@ const authRoutes = require("./auth.routes.js");
 const swaggerRoutes = require("./swagger.routes.js");
 
 // Monta las rutas de autenticación
-route.use(`${process.env.BASE_URL}/api/sessions`, authRoutes);
+route.use("/api/sessions", authRoutes);
 
 // Monta las rutas de productos
-route.use(`${process.env.BASE_URL}/api/products`, productsRoutes);
+route.use("/api/products", productsRoutes);
 
 // Monta las rutas de carritos
-route.use(`${process.env.BASE_URL}/api/carts`, cartsRoutes);
+route.use("/api/carts", cartsRoutes);
 
 // Rutas exclusivas para Swagger sin autenticación
-route.use(`${process.env.BASE_URL}/api/swagger`, swaggerRoutes);
+route.use("/api/swagger", swaggerRoutes);
 
-// Rutas para las páginas de inicio de sesión y registro
-route.get(`${process.env.BASE_URL}/`, renderLoginPage);
-route.get(`${process.env.BASE_URL}/login`, renderLoginPage);
-route.get(`${process.env.BASE_URL}/register`, renderRegisterPage);
+route.get("/", renderLoginPage);
+route.get("/login", renderLoginPage);
+route.get("/register", renderRegisterPage);
 
 module.exports = route;

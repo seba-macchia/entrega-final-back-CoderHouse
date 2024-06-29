@@ -33,7 +33,7 @@ Database.connect()
     loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(errorDictionary.CONECTION_DATABASE); 
   })
   .catch((error) => {
-    loggerConfig.getLogger(`process.env.NODE_ENV, process.env.LOG_LEVEL).error(${errorDictionary.DATABASE_ERROR} ${error}`); 
+    loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).error(`${errorDictionary.DATABASE_ERROR} ${error}`); 
   });
 
 // Configuración de la sesión
@@ -84,18 +84,18 @@ app.set("views", __dirname + "/src/views");
 
 // Rutas
 app.use('/logs', loggerRoutes);
-app.use(`${process.env.BASE_URL}/api/sessions`);
-app.use(`${process.env.BASE_URL}/msg`, messagesRoute);
-app.use(`${process.env.BASE_URL}/`, viewsRoutes);
-app.use(`${process.env.BASE_URL}/api/users`, userRoutes);
+app.use('/api/sessions', authRoutes);
+app.use("/msg", messagesRoute);
+app.use('/', viewsRoutes);
+app.use('/api/users', userRoutes);
 app.use(express.static(__dirname + "/public"));
-app.use(`${process.env.BASE_URL}/chat`, chatRoutes);
+app.use("/chat", chatRoutes);
 
 // Configuración de Swagger
-app.use(`${process.env.BASE_URL}/apidocs`, swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerConfig));
+app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerConfig));
 
 // Inicialización del servidor HTTP
-const PORT = config.port || 8080;
+const PORT = config.port;
 const server = http.createServer(app);
 
 // Configuración de Socket.io
@@ -119,7 +119,7 @@ io.on('connection', (socket) => {
 
 // Iniciar el servidor
 server.listen(PORT, () => {
-  loggerConfig.getLogger(`process.env.NODE_ENV, process.env.LOG_LEVEL).info(${errorDictionary.LISTENING_PORT} ${PORT}`); 
+  loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(`${errorDictionary.LISTENING_PORT} ${PORT}`); 
 });
 
 module.exports = server;
