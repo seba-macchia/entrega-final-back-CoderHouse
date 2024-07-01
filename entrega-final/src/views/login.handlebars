@@ -1,5 +1,10 @@
 <div class="container">
   <h1>Iniciar Sesión</h1>
+
+  {{#if message}}
+    <div class="alert alert-warning">{{message}}</div>
+  {{/if}}
+
   <form action="/api/sessions/login" id="loginForm" method="post">
     <div class="mb-3">
       <input type="email" class="form-control" name="email" placeholder="Correo Electrónico" required>

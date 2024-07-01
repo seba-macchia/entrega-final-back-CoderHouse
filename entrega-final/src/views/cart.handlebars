@@ -88,8 +88,8 @@
       <form id="purchaseForm" action="/api/carts/{{cartId}}/purchase" method="post">
         <button type="submit" class="btn btn-success mr-3" onclick="finalizarCompra(event)">Finalizar compra</button>
       </form>
-      <form action="/api/carts/{{cartId}}/products" method="post">
-        <button type="submit" class="btn btn-danger">Vaciar carrito</button>
+      <form id="emptyCartForm" action="/api/carts/{{cartId}}/products" method="post">
+        <button type="submit" class="btn btn-danger" onclick="vaciarCarrito(event)">Vaciar carrito</button>
       </form>
       {{/if}}
     </div>
@@ -140,9 +140,27 @@
             // Aquí podrías redirigir o realizar alguna acción adicional
             document.getElementById('purchaseForm').submit();
           } , 1500)
-
       );
 
+    }
+
+    function vaciarCarrito(event) {
+      event.preventDefault(); // Evitar que el formulario se envíe
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Carrito vaciado!',
+        text: 'Puedes continuar comprando.',
+        showConfirmButton: false,
+        showCloseButton: false,
+        showCancelButton: false,
+        focusConfirm: false,
+      }).then(
+          setTimeout(function() {
+            // Aquí podrías redirigir o realizar alguna acción adicional
+            document.getElementById('emptyCartForm').submit();
+          } , 1500)
+      );
     }
   </script>
 </body>

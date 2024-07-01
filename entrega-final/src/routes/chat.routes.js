@@ -7,10 +7,10 @@ const {
   renderChatPage,
 } = require("../controllers/chatControllers.js");
 
-const {isPremiumOrUser} = require("../middleware/authMiddleware.js");
+const {authenticateToken, isPremiumOrUser} = require("../middleware/authMiddleware.js");
 
-route.get('/allMessages',isPremiumOrUser, getAllMessages);
-route.post('/createMessage',isPremiumOrUser, createMessage);
-route.get('/',isPremiumOrUser, renderChatPage);
+route.get('/allMessages', authenticateToken, isPremiumOrUser, getAllMessages);
+route.post('/createMessage', authenticateToken, isPremiumOrUser, createMessage);
+route.get('/', authenticateToken, isPremiumOrUser, renderChatPage);
 
 module.exports = route;

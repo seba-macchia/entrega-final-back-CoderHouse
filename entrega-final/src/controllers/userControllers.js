@@ -27,7 +27,7 @@ async function sendResetPasswordEmail(req, res) {
         // Compile the Handlebars template
         const templateSource = fs.readFileSync('./src/views/resetPasswordEmail.handlebars', 'utf8');
         const compiledTemplate = Handlebars.compile(templateSource);
-        const resetUrl = `http://localhost:8080/api/users/reset-password/${resetToken}`;
+        const resetUrl = `/api/users/reset-password/${resetToken}`;
 
         // Render the template with data
         const html = compiledTemplate({ username: user.username, resetUrl });

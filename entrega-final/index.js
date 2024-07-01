@@ -43,7 +43,8 @@ app.use(session({
     mongoUrl: process.env.MONGO_URI,
   }),
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { maxAge: 15 * 60 * 1000 } // 15 minutos en milisegundos
 }));
 
 // Inicializar Passport

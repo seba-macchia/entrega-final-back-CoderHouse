@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js --mode development",
-    "start": "node index.js --mode production",
+    "start": "nodemon index.js --mode production",
     "test": "mocha 'tests/**/*.js'"
   },
   "keywords": [],

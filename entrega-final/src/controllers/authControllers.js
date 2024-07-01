@@ -6,6 +6,7 @@ const errorDictionary = require('../middleware/errorDictionary.js');
 const { getLogger } = require('../config/logger.config');
 const logger = getLogger(process.env.NODE_ENV);
 const {passport} = require('../config/passport.config.js');
+const UserDTO = require("../dao/dto/user.Dto");
 
 const userManager = new UserManager();
 const ticketService = new TicketService(); // Crea una instancia del servicio de tickets
@@ -167,6 +168,19 @@ async function completePurchase(req, res) {
   }
 }
 
+async function getCurrentUser(req, res) {
+  try {
+    const user = req.session.user;
+    const userDTO = new UserDTO(user);
+    const data = userDTO.getData();
+    const isAdmin = data.role === "admin" ? true : false;
+    res.render("profile", { data, isAdmin });
+  } catch (error) {
+    logger.error('Error al obtener el usuario actual:', error);
+    res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -174,5 +188,6 @@ module.exports = {
   loginGithubCallback,
   logout,
   getCurrentUserDTO,
+  getCurrentUser,
   completePurchase, 
 };

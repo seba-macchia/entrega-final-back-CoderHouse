@@ -1,134 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productos - Tienda de Indumentaria</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Sweet Alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- jQuery (required for some Bootstrap components and Ajax) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- Custom CSS -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      padding-top: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indumentaria - Tienda Online</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
 
-    .container {
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      margin-bottom: 30px;
-    }
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
 
-    h1 {
-        font-family: 'Arial', sans-serif;
-        font-size: 2rem; /* Tamaño del texto */
-        color: darkblue; /* Color del texto */
-        text-align: center; /* Alineación centrada */
-        margin-bottom: 20px; /* Espacio inferior */
-        text-transform: uppercase; /* Convertir texto a mayúsculas */
-        letter-spacing: 2px; /* Espaciado entre letras */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra del texto */
-    }
-    h2{
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        h1 {
+            font-size: 2rem; /* Tamaño del texto */
+            color: darkblue; /* Color del texto */
+            text-align: center; /* Alineación centrada */
+            text-transform: uppercase; /* Convertir texto a mayúsculas */
+            letter-spacing: 2px; /* Espaciado entre letras */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra del texto */
+            margin-top: 10px;
+        }
+        h2{
+          font-size: 1.6rem; /* Tamaño del texto */
+          color: darkblue; /* Color del texto */
+          text-align: center; /* Alineación centrada */
+        }
 
-    .btn-group {
-      display: flex;
-      justify-content: space-between;
-    }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
 
-    .btn-group a {
-      margin-right: 10px;
-    }
+        .btn-group a {
+            margin-right: 10px;
+        }
 
-    .card {
-      border: 1px solid rgba(0, 0, 0, 0.125);
-      border-radius: 5px;
-      transition: box-shadow 0.3s ease;
-    }
+        .card {
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 5px;
+            transition: box-shadow 0.3s ease;
+        }
 
-    .card:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .card-body {
-      padding: 1.25rem;
-      text-align: center;
-      height: 435px;
-      align-content: center;
-      background-color:rgb(245, 209, 209);
-    }
+        .card-body {
+            padding: 1.25rem;
+            text-align: center;
+            height: 435px;
+            background-color: rgb(245, 209, 209);
+        }
 
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: darkgreen ;
-      text-align: center;
-      margin: 0;
-    }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: darkgreen;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-    .card-text {
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
+        .card-text {
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
 
-    .btn-cart {
-      color: white !important;
-    }
+        .btn-cart {
+            color: white !important;
+        }
 
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-    }
-  </style>
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            background-color:#101010;
+            color: white;
+        }
+        .div--perfil-logout{
+          display: flex;
+          justify-content: end;
+        }
+        @media (max-width: 576px) {
+          h1{
+            font-size: 1.2rem;
+          }
+          h2{
+            font-size: 1rem;
+          }
+          .div--perfil-logout{
+            justify-content: center;
+          }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1>Indumentaria - Tienda Online</h1>
-      <div class="d-flex justify-center">
-        <a href="/api/sessions/current" class="btn btn-success ml-3">Perfil</a>
-        <form action="/api/sessions/logout" method="post">
-          <button type="submit" class="btn btn-danger ml-3">Cerrar sesión</button>
-        </form>
-      </div>
-    </div>
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="navbar-nav">
-                <a href="/chat" class="btn-cart nav-link btn btn-success mr-2" id="chat-link">Ir al Chat</a>
-
-                {{#if isAdmin}}
-                    <a href="/api/products/manager" class="btn-cart nav-link btn btn-primary mr-2">Gestionar Productos</a>
-                {{/if}}
-
-                {{#if isPremium}}
-                    <a href="/api/products/manager" class="btn-cart nav-link btn btn-primary mr-2">Gestionar Productos</a>
-                {{/if}}
-
-                {{#unless isAdmin}}
-                    <a href="/api/carts/{{cartId}}" class="btn-cart nav-link btn btn-primary" id="cart-link">Ir a Carrito</a>
-                {{/unless}}
-
-                {{#if isAdmin}}
-                    <a href="/api/users" class="btn-cart nav-link btn btn-primary mr-2">Administrar Usuarios</a>
-                {{/if}}
+    <div class="container bg-light">
+        <!-- Header -->
+        <div class="mb-3">
+            <div class="div--perfil-logout">
+                <a href="/api/sessions/current" class="btn btn-success ml-3">Perfil</a>
+                <form action="/api/sessions/logout" method="post">
+                    <button type="submit" class="btn btn-danger ml-3">Cerrar sesión</button>
+                </form>
+            </div>
+            <h1>Indumentaria - Tienda Online</h1>
+        </div>
+        
+        <!-- Navegación -->
+        <nav class="navbar navbar-expand-lg navbar-light mb-3">
+            <div class="navbar-collapse">
+                <ul class="navbar-nav d-flex flex-row justify-content-between mr-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-success mr-2" href="/chat">Ir al Chat</a>
+                    </li>
+                    {{#if isAdmin}}
+                        <li class="nav-item">
+                            <a class="btn btn-primary mr-2" href="/api/products/manager">Gestionar Productos</a>
+                        </li>
+                    {{/if}}
+                    {{#if isPremium}}
+                        <li class="nav-item">
+                            <a class="btn btn-primary mr-2" href="/api/products/manager">Gestionar Productos</a>
+                        </li>
+                    {{/if}}
+                    {{#unless isAdmin}}
+                        <li class="nav-item">
+                            <a class="btn btn-primary" href="/api/carts/{{cartId}}" id="cart-link">Ir a Carrito</a>
+                        </li>
+                    {{/unless}}
+                    {{#if isAdmin}}
+                        <li class="nav-item">
+                            <a class="btn btn-primary" href="/api/users">Administrar Usuarios</a>
+                        </li>
+                    {{/if}}
+                </ul>
             </div>
         </nav>
 
-    <h2 >Bienvenido Usuario: {{user.email}} Rol: {{user.role}}</h2>
+    <h2><strong>Bienvenido Usuario:</strong>  {{user.email}} <br> <strong>Rol:</strong> {{user.role}}</h2>
 
     <div class="row" id="products-container">
       {{#each products}}
@@ -136,9 +156,9 @@
         <div class="card  mb-3 d-flex flex-column">
           <div class="card-body">
             <h5 class="card-title">{{this.title}}</h5>
+            <img src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
             <p class="card-text"><strong>Descripción:</strong> {{this.description}}</p>
             <p class="card-text"><strong>Precio por unidad:</strong> {{this.price}}</p>
-            <img src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
             <p class="card-text"><strong>Categoría:</strong> {{this.category}}</p>
             <button class="add-to-cart-btn btn btn-success" data-product-id="{{this._id}}">Agregar al Carrito</button>
           </div>
@@ -167,11 +187,15 @@
 
   <!-- Footer -->
   <div class="footer">
-    <p>Sebastian Macchia &copy; {{year}}</p>
+    <p class="m-0">Sebastian Macchia &copy; {{year}}</p>
   </div>
 
   <!-- Bootstrap JS (opcional si necesitas funcionalidad de Bootstrap) -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
   $(document).ready(function () {
@@ -225,7 +249,7 @@
               Swal.fire({
                 icon: 'error',
                 title: 'Acción no permitida',
-                text: 'No tiene permisos para agregar este producto al carrito.',
+                text: 'No puedes agregar un producto que te pertenece',
               });
             } else {
               Swal.fire({

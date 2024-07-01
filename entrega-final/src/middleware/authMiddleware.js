@@ -1,3 +1,24 @@
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../utils/generateToken");
+
+function authenticateToken(req, res, next) {
+  const token = req.cookies.cookieToken; // Asumiendo que el token se guarda en una cookie
+
+  if (!token) {
+    return res.redirect('/?message=Sesión expirada. Debe volver a iniciar sesión.');
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.redirect('/?message=Sesión expirada. Debe volver a iniciar sesión.');
+    }
+
+    req.user = user;
+    next();
+  });
+}
+
+
 const isAdmin = (req, res, next) => {
   // Verificar si el usuario es un administrador
   if (req.session.user && req.session.user.role === 'admin') {
@@ -71,4 +92,5 @@ const isPremiumOrUser = (req, res, next) => {
 };
 
 
-module.exports = { isAdmin, isUser, isPremium, isAdminOrPremium, isPremiumOrUser };
+module.exports = { authenticateToken, isAdmin, isUser, isPremium, isAdminOrPremium, isPremiumOrUser };
+

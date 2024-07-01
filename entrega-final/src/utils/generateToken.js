@@ -10,7 +10,7 @@ function tokenGenerator(user) {
   };
 
   const options = {
-    expiresIn: "1h", // Define la expiración del token como desees
+    expiresIn: "15m", // Define la expiración del token como desees
   };
 
   return jwt.sign(payload, SECRET_KEY, options);

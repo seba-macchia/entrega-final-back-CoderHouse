@@ -9,6 +9,7 @@ const logger = getLogger(process.env.NODE_ENV);
 const transporter = require("../config/email.config")
 const handlebars = require("handlebars");
 const fs = require('fs');
+const { ObjectId } = require("mongodb");
 
 
 async function getAllCarts(req, res) {
@@ -61,12 +62,21 @@ async function updateProductQuantity(req, res) {
     const pid = req.params.pid;
     const quantity = req.body.quantity;
     const userRole = req.user.role;
+    const userId = req.user._id;
 
     const product = await Product.findById(pid);
     
-    if (userRole === 'premium' && product.owner != 'admin') {
-      logger.error('No tiene permisos para agregar este producto');
-      return res.status(403).send({ msg: 'No tiene permisos para agregar este producto' });
+    if (userRole === 'premium'){
+
+      if (product.owner != "admin") {
+        if (product.owner.toString() === userId) {
+          logger.error('No tiene permisos para agregar este producto');
+          return res.status(403).send({ msg: 'No puedes agregar un producto que te pertenece' });
+        }
+      } else{
+        logger.error('No tiene permisos para agregar este producto');
+        return res.status(403).send({ msg: 'No puedes agregar un producto que te pertenece' });
+      }
     }
 
     let response = await cartManager.updateProductQuantity(cid, pid, quantity);
