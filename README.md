@@ -149,7 +149,7 @@ coder-backend/
   -  Swagger Routes: Documentación de API sin autenticación.
   -  User Routes: Funcionalidades de usuario, incluyendo roles y gestión de documentos.
 
-## Auth Routes: Autenticación de usuarios
+### Auth Routes: Autenticación de usuarios
 ```
     POST /api/sessions/register
         Descripción: Registra un nuevo usuario en el sistema.
@@ -176,8 +176,8 @@ coder-backend/
         Controlador: Función anónima
 ```
 
-Carts Routes: Operaciones relacionadas con carritos de compra
-
+### Carts Routes: Operaciones relacionadas con carritos de compra
+```
     GET /api/carts/allCarts
         Descripción: Obtiene todos los carritos. Solo accesible para administradores.
         Controlador: getAllCarts
@@ -225,9 +225,9 @@ Carts Routes: Operaciones relacionadas con carritos de compra
         Descripción: Realiza la compra de los productos en un carrito.
         Controlador: purchaseCart
         Restricción: Solo accesible para usuarios premium o normales.
-
-Chat Routes: Funcionalidades de chat
-
+```
+### Chat Routes: Funcionalidades de chat
+```
     GET /api/chat/allMessages
         Descripción: Obtiene todos los mensajes del chat.
         Controlador: getAllMessages
@@ -242,28 +242,30 @@ Chat Routes: Funcionalidades de chat
         Descripción: Renderiza la página principal del chat.
         Controlador: renderChatPage
         Restricción: Acceso público.
-
-Home Routes: Rutas principales de la aplicación
-
+```
+### Home Routes: Rutas principales de la aplicación
+```
     GET /
         Descripción: Renderiza la página principal de la aplicación.
         Controlador: renderHomePage
         Restricción: Acceso público.
-
-Logger Routes: Pruebas de logging
-
+```
+### Logger Routes: Pruebas de logging
+```
     GET /api/logger/loggerTest
         Descripción: Endpoint de prueba para el sistema de logging.
         Controlador: loggerController.loggerTest
         Restricción: Acceso público.
+```
+## Main Routes: Montaje de todas las rutas principales
 
-Main Routes: Montaje de todas las rutas principales
+###  MONTAJE DE RUTAS
+```
+Descripción: Incluye todas las rutas principales de la aplicación, como las de autenticación, productos, carritos y documentación Swagger.
+```
 
-    MONTAJE DE RUTAS
-        Descripción: Incluye todas las rutas principales de la aplicación, como las de autenticación, productos, carritos y documentación Swagger.
-
-Products Routes: Operaciones relacionadas con productos
-
+### Products Routes: Operaciones relacionadas con productos
+```
     GET /api/products/
         Descripción: Obtiene todos los productos.
         Controlador: getAllProducts
@@ -301,9 +303,10 @@ Products Routes: Operaciones relacionadas con productos
         Descripción: Obtiene productos simulados.
         Controlador: generateSimulatedProducts
         Restricción: Acceso público.
+```
 
-Realtime Products Routes: Operaciones en tiempo real para productos
-
+### Realtime Products Routes: Operaciones en tiempo real para productos
+```
     GET /api/realtimeproducts/
         Descripción: Renderiza la página de productos en tiempo real.
         Controlador: renderRealTimeProductsPage
@@ -312,14 +315,14 @@ Realtime Products Routes: Operaciones en tiempo real para productos
     GET /api/realtimeproducts/realtimeproducts
         Descripción: Obtiene productos en tiempo real.
         Controlador: getRealTimeProducts
+```
+### Swagger Routes: Documentación de API sin autenticación
 
-Swagger Routes: Documentación de API sin autenticación
+## Rutas de Productos y Carritos
+  ### Descripción: Todas las rutas de productos y carritos disponibles para probar utilizando Swagger sin autenticación.
 
-    Rutas de Productos y Carritos
-        Descripción: Todas las rutas de productos y carritos disponibles para probar utilizando Swagger sin autenticación.
-
-User Routes: Funcionalidades de usuario, incluyendo roles y gestión de documentos
-
+## User Routes: Funcionalidades de usuario, incluyendo roles y gestión de documentos
+```
     GET /api/user/reset-password
         Descripción: Renderiza la página para restablecer la contraseña del usuario.
         Controlador: userControllers.renderResetPassword
@@ -354,7 +357,9 @@ User Routes: Funcionalidades de usuario, incluyendo roles y gestión de document
         Descripción: Maneja la subida de documentos por parte de un usuario.
         Controlador: userControllers.uploadDocuments
         Restricción: Acceso para usuarios con permisos específicos.
+```
 
-
-Aclaración:
+## Aclaración:
+```
   Los archivos que sube el usuario, al guardar el nombre, adelante pone la fecha y la hora actual para identificar el archivo, luego con el nombre que se le dió.
+```  
