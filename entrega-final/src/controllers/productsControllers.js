@@ -140,8 +140,9 @@ async function getProductById(req, res) {
 }
 
 async function createProduct(req, res, isTest = false) {
+
   try {
-    const {
+    let {
       title,
       description,
       price,
@@ -153,7 +154,9 @@ async function createProduct(req, res, isTest = false) {
       owner
     } = req.body;
 
-    const ownerId = owner ? new ObjectId(owner) : "admin";
+    if (owner !== 'admin'){
+      owner = new ObjectId(owner);
+    }
 
     if (req.session.user && (req.session.user.role === 'premium' || req.session.user.role === 'admin')) {
       const newProduct = await productManager.addProduct({
@@ -165,7 +168,7 @@ async function createProduct(req, res, isTest = false) {
         stock,
         status,
         category,
-        owner: ownerId
+        owner
       });
 
       const userAgent = req.get('User-Agent') || '';
@@ -206,7 +209,7 @@ async function updateProduct(req, res) {
       return res.status(404).send({ error: 'Producto no encontrado' });
     }
 
-    if (user && (user.role === 'admin' || (user.role === 'premium' && product.owner !== 'admin' && product.owner.equals(userId)))) {
+    if (user && (user.role === 'admin' || (user.role === 'premium' && product.owner !== 'admin' && product.owner.toString() === userId.toString()))) {
       const updateResult = await productManager.updateProduct(productId, newData);
 
       if (updateResult.success) {
@@ -232,35 +235,38 @@ async function deleteProduct(req, res) {
   const userId = new ObjectId(user._id);
 
   try {
-    const productResult = await productManager.getProductById(productId); // Usando el método de tu ProductManager para obtener el producto
+    const productResult = await productManager.getProductById(productId);
     const product = productResult.data;
 
     if (!product) {
       return res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
     }
 
-    if (user && (user.role === 'admin' || (user.role === 'premium' && product.owner.equals(userId)))) {
-      const deleteResult = await productManager.deleteProductById(productId); // Usando el método de tu ProductManager para eliminar el producto
+    if (user && (user.role === 'admin' || (user.role === 'premium' && product.owner.toString() === userId.toString()))) {
+      const deleteResult = await productManager.deleteProductById(productId);
 
       if (deleteResult) {
-        // Send email to premium user who created the product if deleted by premium or admin
-        if (product.owner.equals(userId) || user.role == 'admin') { // Solo notificar si el propietario del producto no es el usuario que lo está eliminando y no es admin
-          const owner = await userManager.getUserById(product.owner); // Suponiendo que userManager es donde obtienes los detalles del usuario propietario
-          if (owner.role === 'premium') {
-            const mailOptions = {
-              from: process.env.EMAIL_USER,
-              to: owner.email,
-              subject: 'Producto eliminado',
-              text: `Hola ${owner.name}, tu producto con ID ${productId} ha sido eliminado por ${user.name}.`
-            };
+        // Send email notification to premium user who created the product if deleted by premium or admin
+        if (product.owner.toString() === userId.toString() || user.role === 'admin') {
+          if (product.owner !== 'admin') {
+            const owner = await userManager.getUserById(product.owner);
 
-            transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                logger.error('Error al enviar el correo:', error);
-              } else {
-                logger.info('Correo enviado:', info.envelope.to);
-              }
-            });
+            if (owner && owner.role === 'premium') {
+              const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: owner.email,
+                subject: 'Product deleted',
+                text: `Hello ${owner.name}, your product with ID ${productId} has been deleted by ${user.name}.`
+              };
+
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  logger.error('Error sending email:', error);
+                } else {
+                  logger.info('Email sent:', info.envelope.to);
+                }
+              });
+            }
           }
         }
 
@@ -269,10 +275,10 @@ async function deleteProduct(req, res) {
         res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
       }
     } else {
-      res.status(403).send({ error: 'El usuario no tiene permisos para eliminar este producto' });
+      res.status(403).send({ error: 'User does not have permission to delete this product' });
     }
   } catch (error) {
-    logger.error(`Error al eliminar el producto: ${error}`);
+    logger.error(`Error deleting product: ${error}`);
     res.status(500).send({ error: errorDictionary.INTERNAL_SERVER_ERROR });
   }
 }

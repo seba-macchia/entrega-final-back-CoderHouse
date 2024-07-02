@@ -1,28 +1,85 @@
-<div class="container">
-  <h1>Iniciar Sesión</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 50px;
+    }
 
-  {{#if message}}
-    <div class="alert alert-warning">{{message}}</div>
-  {{/if}}
+    .container {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+    }
 
-  <form action="/api/sessions/login" id="loginForm" method="post">
-    <div class="mb-3">
-      <input type="email" class="form-control" name="email" placeholder="Correo Electrónico" required>
+    h1 {
+      font-family: 'Arial', sans-serif;
+      font-size: 2rem;
+      color: darkblue;
+      text-align: center;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary, .btn-secondary {
+      width: 100%;
+    }
+
+    .btn-primary:not(:last-child), .btn-secondary:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    .alert {
+      margin-bottom: 20px;
+    }
+
+    .mt-3 p {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Iniciar Sesión</h1>
+
+    {{#if message}}
+      <div class="alert alert-warning">{{message}}</div>
+    {{/if}}
+
+    <form action="/api/sessions/login" id="loginForm" method="post">
+      <div class="mb-3">
+        <input type="email" class="form-control" name="email" placeholder="Correo Electrónico" required>
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    </form>
+
+    <a href="/api/sessions/login_github" class="btn btn-primary mt-3">Iniciar sesión con GitHub</a>
+
+    <div class="mt-3">
+      <p>¿No tienes cuenta?</p>
+      <a href="/register" class="btn btn-secondary">Registrarse</a>
     </div>
-    <div class="mb-3">
-      <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+    <div class="mt-3">
+      <p>¿Olvidaste tu contraseña?</p>
+      <a href="/api/users/reset-password" class="btn btn-secondary">Reestablecer contraseña</a>
     </div>
-    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-  </form>
-
-  <a href="/api/sessions/login_github" class="btn btn-primary mt-3">Iniciar sesión con GitHub</a>
-
-  <div class="mt-3">
-    <p>¿No tienes cuenta?</p>
-    <a href="/register" class="btn btn-secondary">Registrarse</a>
   </div>
-  <div class="mt-3">
-    <p>¿Olvidaste tu contraseña?</p>
-    <a href="/api/users/reset-password" class="btn btn-secondary">Reestablecer contraseña</a>
-  </div>
-</div>
+</body>
+</html>

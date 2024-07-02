@@ -69,12 +69,14 @@
             text-align: center;
             margin-bottom: 10px;
         }
-
         .card-text {
-            margin-bottom: 0.5rem;
-            text-align: center;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; 
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis; 
+          margin-bottom: 3px
         }
-
         .btn-cart {
             color: white !important;
         }
@@ -87,7 +89,7 @@
             background-color:#101010;
             color: white;
         }
-        .div--perfil-logout{
+        .div-perfil-logout{
           display: flex;
           justify-content: end;
         }
@@ -98,8 +100,26 @@
           h2{
             font-size: 1rem;
           }
-          .div--perfil-logout{
+          .div-perfil-logout{
             justify-content: center;
+          }
+          .container{
+            padding: 15px;
+          }
+          .navbar{
+            padding: 10px;
+          }
+        }
+        @media (min-width: 577px) and ( max-width: 991px) {
+          h1{
+            font-size: 1.5rem;
+          }
+          h2{
+            font-size: 1.2rem;
+          }
+          .img-product{
+            width: 125px;
+            height: 120px;
           }
         }
     </style>
@@ -108,7 +128,7 @@
     <div class="container bg-light">
         <!-- Header -->
         <div class="mb-3">
-            <div class="div--perfil-logout">
+            <div class="div-perfil-logout">
                 <a href="/api/sessions/current" class="btn btn-success ml-3">Perfil</a>
                 <form action="/api/sessions/logout" method="post">
                     <button type="submit" class="btn btn-danger ml-3">Cerrar sesión</button>
@@ -156,7 +176,7 @@
         <div class="card  mb-3 d-flex flex-column">
           <div class="card-body">
             <h5 class="card-title">{{this.title}}</h5>
-            <img src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
+            <img class="img-product" src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
             <p class="card-text"><strong>Descripción:</strong> {{this.description}}</p>
             <p class="card-text"><strong>Precio por unidad:</strong> {{this.price}}</p>
             <p class="card-text"><strong>Categoría:</strong> {{this.category}}</p>

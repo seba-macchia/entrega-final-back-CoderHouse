@@ -3071,3 +3071,28 @@
 {"level":"\u001b[31merror\u001b[39m","message":"No tiene permisos para agregar este producto","timestamp":"2024-07-01T13:44:02.668Z"}
 {"level":"\u001b[31merror\u001b[39m","message":"No tiene permisos para agregar este producto","timestamp":"2024-07-01T13:45:09.504Z"}
 {"0":"macchiasebastian@gmail.com","level":"\u001b[32minfo\u001b[39m","message":"Correo enviado:","timestamp":"2024-07-01T13:45:23.485Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T11:42:13.084Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T11:42:14.289Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión del administrador:admin@coder.com","timestamp":"2024-07-02T11:43:53.076Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T11:57:15.100Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T11:57:16.200Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión del administrador:admin@coder.com","timestamp":"2024-07-02T11:59:57.623Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-07-02T12:05:26.432Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-07-02T12:05:41.395Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: macchiasebastian@gmail.com","timestamp":"2024-07-02T12:06:53.700Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 665c7b2f1724c1eeaf999566 en el carrito 666c690cc55258d687be5377","timestamp":"2024-07-02T12:19:25.370Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Compra completada.","timestamp":"2024-07-02T12:19:36.802Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 665c7b2f1724c1eeaf999566 en el carrito 668296afeef990bf73e38104","timestamp":"2024-07-02T12:20:10.027Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 665d96da81ad4c179821df21 en el carrito 668296afeef990bf73e38104","timestamp":"2024-07-02T12:20:19.475Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Página de chat renderizada correctamente.","timestamp":"2024-07-02T12:20:22.591Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Todos los productos del carrito 668296afeef990bf73e38104 eliminados correctamente.","timestamp":"2024-07-02T12:20:30.844Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión del administrador:admin@coder.com","timestamp":"2024-07-02T12:21:11.703Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: macchiasebastian@gmail.com","timestamp":"2024-07-02T12:49:58.629Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T12:59:29.108Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T12:59:30.175Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T13:08:30.160Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T13:08:31.305Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T13:11:18.059Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T13:11:19.142Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T13:15:38.645Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T13:15:39.736Z"}

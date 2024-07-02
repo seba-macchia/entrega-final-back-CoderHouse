@@ -65,6 +65,7 @@ async function updateProductQuantity(req, res) {
     const userId = req.user._id;
 
     const product = await Product.findById(pid);
+
     
     if (userRole === 'premium'){
 
@@ -73,9 +74,6 @@ async function updateProductQuantity(req, res) {
           logger.error('No tiene permisos para agregar este producto');
           return res.status(403).send({ msg: 'No puedes agregar un producto que te pertenece' });
         }
-      } else{
-        logger.error('No tiene permisos para agregar este producto');
-        return res.status(403).send({ msg: 'No puedes agregar un producto que te pertenece' });
       }
     }
 
