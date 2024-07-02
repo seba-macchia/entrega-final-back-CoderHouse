@@ -10,6 +10,7 @@ require('dotenv').config();
 const { tokenGenerator, SECRET_KEY } = require("../utils/generateToken.js");
 const bcrypt = require("../utils/bcrypts.js");
 
+
 const cookieExtractor = function (req) {
   let token = null;
   if (req && req.cookies) {
@@ -47,7 +48,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: `${config.baseURL}/api/sessions/login_github/callback`,
+      callbackURL: '/api/sessions/login_github/callback',
       scope: ["user:email"],
     },
     async ( accessToken, refreshToken, profile, done) => {
