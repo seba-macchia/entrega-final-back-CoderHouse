@@ -3096,3 +3096,10 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T13:11:19.142Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-02T13:15:38.645Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-02T13:15:39.736Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-03T07:52:17.448Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T07:52:18.629Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Usuario no encontrado con el correo electrónico proporcionado: glen@mail.com","timestamp":"2024-07-03T07:52:27.156Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-03T07:58:44.529Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T07:58:45.768Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-03T08:10:00.965Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T08:10:02.059Z"}

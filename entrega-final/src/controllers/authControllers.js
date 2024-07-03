@@ -2,10 +2,10 @@ const bcrypt = require("bcrypt");
 const { tokenGenerator } = require("../utils/generateToken.js");
 const UserManager = require("../services/userService.js");
 const TicketService = require("../services/ticketService.js");
-const errorDictionary = require('../middleware/errorDictionary.js');
-const { getLogger } = require('../config/logger.config');
+const errorDictionary = require("../middleware/errorDictionary.js");
+const { getLogger } = require("../config/logger.config");
 const logger = getLogger(process.env.NODE_ENV);
-const {passport} = require('../config/passport.config.js');
+const { passport } = require("../config/passport.config.js");
 const UserDTO = require("../dao/dto/user.Dto");
 
 const userManager = new UserManager();
@@ -24,9 +24,9 @@ async function register(req, res) {
     await userManager.addUser(userNew);
     res.redirect("/");
 
-    logger.info('Usuario registrado correctamente');
+    logger.info("Usuario registrado correctamente");
   } catch (error) {
-    logger.error('Error al registrar usuario:', error);
+    logger.error("Error al registrar usuario:", error);
     res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
@@ -36,13 +36,15 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await userManager.findUserByEmail(email);
     if (!user) {
-      logger.warning(`Usuario no encontrado con el correo electrónico proporcionado: ${email}`);
-      return res.status(401).send(errorDictionary.EMAIL_ERROR);
+      logger.warning(
+        `Usuario no encontrado con el correo electrónico proporcionado: ${email}`
+      );
+      return res.status(401).json({ message: errorDictionary.EMAIL_ERROR });
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       logger.warning(`Contraseña incorrecta para el usuario: ${email}`);
-      return res.status(401).send(errorDictionary.PASSWORD_ERROR);
+      return res.status(401).json({ message: errorDictionary.PASSWORD_ERROR });
     }
 
     // Actualizar last_connection para el usuario
@@ -50,7 +52,7 @@ async function login(req, res) {
     await user.save();
 
     // Verificar si el usuario es el administrador
-    if (user.email === 'admin@coder.com' && password === 'Admin1234') {
+    if (user.email === "admin@coder.com" && password === "Admin1234") {
       logger.info(`Inicio de sesión del administrador:${email}`);
       const token = tokenGenerator(user);
       req.session.user = user; // Agregar el usuario a la sesión
@@ -61,7 +63,7 @@ async function login(req, res) {
 
     // Si no es el administrador, continuar con la autenticación normal
     const userId = user._id; // Obtener el ID del usuario
-    const token = tokenGenerator(user); 
+    const token = tokenGenerator(user);
     req.session.user = user; // Agregar el usuario a la sesión
     res.cookie("cookieToken", token, { httpOnly: true });
 
@@ -71,11 +73,9 @@ async function login(req, res) {
     logger.info(`Inicio de sesión exitoso: ${email}`);
   } catch (error) {
     logger.error(`Error al iniciar sesión: ${error}`);
-    res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
+    res.status(500).json({ message: errorDictionary.INTERNAL_SERVER_ERROR });
   }
 }
-
-
 
 function loginGithub(req, res, next) {
   passport.authenticate("login_github", {
@@ -108,7 +108,6 @@ async function loginGithubCallback(req, res) {
   res.cookie("cookieToken", token, { httpOnly: true });
   res.redirect("/api/products");
 }
-
 
 async function logout(req, res) {
   try {
@@ -143,7 +142,6 @@ function getCurrentUserDTO(user) {
     email: user.email,
     name: user.name,
     role: user.role,
-
   };
   return userDTO;
 }
@@ -151,7 +149,10 @@ function getCurrentUserDTO(user) {
 async function completePurchase(req, res) {
   try {
     // Lógica para completar la compra y generar el ticket
-    const ticket = await ticketService.generateTicket(req.session.user, req.body.products);
+    const ticket = await ticketService.generateTicket(
+      req.session.user,
+      req.body.products
+    );
 
     // Filtrar los productos que no pudieron comprarse
     const productsNotPurchased = ticketService.getProductsNotPurchased();
@@ -163,7 +164,7 @@ async function completePurchase(req, res) {
 
     logger.info(`Compra completada por el usuario: ${req.session.user.email}`);
   } catch (error) {
-    logger.error('Error al completar la compra:', error);
+    logger.error("Error al completar la compra:", error);
     res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
@@ -176,7 +177,7 @@ async function getCurrentUser(req, res) {
     const isAdmin = data.role === "admin" ? true : false;
     res.render("profile", { data, isAdmin });
   } catch (error) {
-    logger.error('Error al obtener el usuario actual:', error);
+    logger.error("Error al obtener el usuario actual:", error);
     res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
@@ -189,5 +190,5 @@ module.exports = {
   logout,
   getCurrentUserDTO,
   getCurrentUser,
-  completePurchase, 
+  completePurchase,
 };
