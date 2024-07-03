@@ -3103,3 +3103,8 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T07:58:45.768Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-03T08:10:00.965Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T08:10:02.059Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-07-03T08:19:49.712Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-07-03T08:19:50.822Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Usuario no encontrado con el correo electrónico proporcionado: seba22@mail.com","timestamp":"2024-07-03T08:20:04.520Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Usuario no encontrado con el correo electrónico proporcionado: josse@mail.com","timestamp":"2024-07-03T08:20:18.495Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Contraseña incorrecta para el usuario: jose@mail.com","timestamp":"2024-07-03T08:20:26.965Z"}

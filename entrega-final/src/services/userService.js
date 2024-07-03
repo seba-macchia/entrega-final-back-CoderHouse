@@ -40,9 +40,6 @@ class UserManager {
       console.error(errorDictionary.ERROR_USER_NOT_CREATED, error);
     }
   }
-  
-  
-
   async getUserById(id) {
     try {
       return await this.userDao.getUserById(id);
